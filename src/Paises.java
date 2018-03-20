@@ -35,9 +35,11 @@ public class Paises {
                 case 8: gravarDados(); break;
                 case 9: gravarDadosContinentes(); break;
                 case 10: lerDadosContinentes(); break;
-                case 11: gravarDados(); break;
+                case 11: informarContinentes(); break;
+                case 12: incluirContinente(); break;
+                case 13: gravarDados(); break;
             }
-        }while(opcao != 12);
+        }while(opcao != 14);
     }
 
     private static int menu(){
@@ -55,14 +57,16 @@ public class Paises {
         System.out.println("| 8. Gravar Dados em Arquivo    |");
         System.out.println("| 9. Gravar Dados de Continentes|");
         System.out.println("| 10. Ler Dados de Continentes  |");
-        System.out.println("| 11. Encerrar o Programa       |");
-        System.out.println("| 12. Encerrar o Programa       |");
+        System.out.println("| 11. Informações de Continente |");
+        System.out.println("| 12. Criar Continente          |");
+        System.out.println("| 13. Incluir Continente      |");
+        System.out.println("| 14. Encerrar o Programa       |");
         System.out.println("+===============================+");
 
         int opcao;
         do {
             try {
-                System.out.print("Digite a sua opção (1 a 12): ");
+                System.out.print("Digite a sua opção (1 a 14): ");
                 opcao = leia.nextInt();
             }
             catch(Exception e)
@@ -70,7 +74,7 @@ public class Paises {
                 leia.nextLine();
                 opcao = 0;
             }
-        }while (opcao < 1 || opcao > 12);
+        }while (opcao < 1 || opcao > 14);
 
         return opcao;
     }
@@ -129,6 +133,29 @@ public class Paises {
             paises.add(novo);
         }
     }
+
+    private void incluirContinente(){
+        Continente novo
+        String nome;
+        System.out.println("Qual será o nome do seu continente?");
+        nome = leia.nextLine();
+        if(buscarContinente(nome)){
+            System.out.println("Esse continente já existe no banco de dados");
+            return;
+        }else{
+            novo = new Continente(nome);
+            System.out.println("Continente criado com sucesso");
+        }
+    }
+
+    private static boolean buscarContinente(String nome){
+        for (Continente c: continentes)
+            if (nome.equalsIgnoreCase(c.getNome()))
+                return true;
+        return false;
+    }
+
+
 
     // verificar se país já foi inserido na lista
     private static Pais buscaPais (String codigo) {
@@ -242,6 +269,23 @@ public class Paises {
             else
                 System.out.println (" não são vizinhos!");
 
+        }
+    }
+
+    private static void informarContinentes(){
+        if(continentes.isEmpty()) {
+            return;
+        }
+        for (Continente continente: continentes) {
+            StringBuilder string = new StringBuilder();
+            string.append("Nome do Continente: " + continente.getNome() + "\n");
+            string.append("Dimensao Total: " + continente.dimensao() + "\n");
+            string.append("Densidade: " + continente.densidade() + "\n");
+            System.out.printf(string.toString());
+            for (Pais pais: continente.getPaisesDoContinente()) {
+                pais.mostraDados();
+                System.out.println();
+            }
         }
     }
 
